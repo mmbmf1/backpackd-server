@@ -1,0 +1,3 @@
+TRUNCATE
+    backpackd_users
+    RESTART IDENTITY CASCADE;
