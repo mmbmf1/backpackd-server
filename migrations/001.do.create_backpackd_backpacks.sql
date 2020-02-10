@@ -3,5 +3,5 @@ CREATE TABLE backpackd_backpacks (
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     name TEXT NOT NULL,
     userItems json NOT NULL,
-    summary json NOT NULL
+    total NUMERIC NOT NULL
 );
