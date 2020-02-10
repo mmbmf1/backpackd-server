@@ -15,42 +15,42 @@ VALUES
         'Kaela',
         'Salmond',
         'ksalmond0@tripod.com',
-        'rHe3mf0XW'
+        '$2a$12$jZ/bmvRs6fJ6seI7eF7AnOt1LCFtnn7Q33qYFd2aZaUJnb4ouFw06'
     ),
     (
         'nchainey1',
         'Nora',
         'Chainey',
         'nchainey1@patch.com',
-        'v7pKfno3TE'
+        'password1'
     ),
     (
         'pdonegan2',
         'Philippe',
         'Donegan',
         'pdonegan2@google.fr',
-        'p91kLdEvw'
+        'password2'
     ),
     (
         'gasipenko3',
         'Gabriell',
         'Asipenko',
         'gasipenko3@usatoday.com',
-        'nsQMFBPhB'
+        'password3'
     ),
     (
         'cpreshaw4',
         'Corinna',
         'Preshaw',
         'cpreshaw4@narod.ru',
-        'ei6u6y'
+        'password4'
     ),
     (
         'pbatrip5',
         'Paddy',
         'Batrip',
         'pbatrip5@smugmug.com',
-        'I2bdpB'
+        'password5'
     ),
     (
         'vcossam6',
