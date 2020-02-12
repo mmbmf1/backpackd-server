@@ -39,9 +39,10 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
         };
 
         return UsersService.insertUser(req.app.get("db"), newUser).then(user => {
+          console.log(user)
           res
             .status(201)
-            .location(path.posix.join(req.originalUrl, `/backpacks/${user.id}`))
+            // .location(path.posix.join(req.originalUrl, `/backpacks`))
             .json(UsersService.serializeUser(user));
         });
       });
