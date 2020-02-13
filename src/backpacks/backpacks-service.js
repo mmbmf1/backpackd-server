@@ -3,15 +3,24 @@ const xss = require("xss");
 
 const BackpacksService = {
   getAllBackpacks(db) {
-    return db.from("backpackd_backpacks AS bp").select(
-      "bp.id",
-      "bp.name",
-      "bp.date_created",
-      "bp.useritems",
-      "bp.total"
-      // ...userFields,
-    );
-    //   .leftJoin("backpackd_users", "bp.user_id", "user.id");
+    return db
+    .from("backpackd_backpacks AS bp")
+    .select('*')
+    .where('bp.user_id', '1');
+    // .select(
+    //   "bp.id",
+    //   "bp.name",
+    //   "bp.date_created",
+    //   "bp.useritems",
+    //   "bp.total"
+    // )
+  },
+
+  getUserBackpacks(db, user_id) {
+    return db
+      .from('backpackd_backpacks AS bp')
+      .select('*')
+      .where('bp.user_id', user_id);
   },
 
   insertBackpack(db, newBackpack) {

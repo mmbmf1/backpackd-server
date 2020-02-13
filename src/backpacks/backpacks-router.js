@@ -6,7 +6,7 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const backpacksRouter = express.Router();
 const jsonBodyParser = express.json();
 
-backpacksRouter.route("/").get(requireAuth, (req, res, next) => {
+backpacksRouter.route("/").get((req, res, next) => {
   BackpacksService.getAllBackpacks(req.app.get("db"))
     .then(backpacks => {
       res.json(backpacks);
@@ -14,9 +14,13 @@ backpacksRouter.route("/").get(requireAuth, (req, res, next) => {
     .catch(next);
 });
 
-// backpacksRouter
-//   .route('/user_id')
-//   .get((req, res, next) => )
+backpacksRouter.route("/:user_id").get(requireAuth, (req, res, next) => {
+  BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_id)
+    .then(backpacks => {
+      res.json(backpacks);
+    })
+    .catch(next);
+});
 
 backpacksRouter
   .route("/")

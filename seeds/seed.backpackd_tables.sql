@@ -16,69 +16,6 @@ VALUES
         'Salmond',
         'ksalmond0@tripod.com',
         '$2a$12$jZ/bmvRs6fJ6seI7eF7AnOt1LCFtnn7Q33qYFd2aZaUJnb4ouFw06'
-    ),
-    (
-        'nchainey1',
-        'Nora',
-        'Chainey',
-        'nchainey1@patch.com',
-        'password1'
-    ),
-    (
-        'pdonegan2',
-        'Philippe',
-        'Donegan',
-        'pdonegan2@google.fr',
-        'password2'
-    ),
-    (
-        'gasipenko3',
-        'Gabriell',
-        'Asipenko',
-        'gasipenko3@usatoday.com',
-        'password3'
-    ),
-    (
-        'cpreshaw4',
-        'Corinna',
-        'Preshaw',
-        'cpreshaw4@narod.ru',
-        'password4'
-    ),
-    (
-        'pbatrip5',
-        'Paddy',
-        'Batrip',
-        'pbatrip5@smugmug.com',
-        'password5'
-    ),
-    (
-        'vcossam6',
-        'Vasily',
-        'Cossam',
-        'vcossam6@de.vu',
-        '2VxrtSYfyS'
-    ),
-    (
-        'tmcfaul7',
-        'Tremain',
-        'McFaul',
-        'tmcfaul7@dell.com',
-        'RKuwd7c7'
-    ),
-    (
-        'gvollam8',
-        'Georgetta',
-        'Vollam',
-        'gvollam8@tuttocitta.it',
-        'Y6XN1ea'
-    ),
-    (
-        'rgrimshaw9',
-        'Ronny',
-        'Grimshaw',
-        'rgrimshaw9@omniture.com',
-        'lmlAvmO'
     );
 
 INSERT INTO
@@ -94,7 +31,7 @@ VALUES
         'Second Backpack',
         '{"Backpack Gear":{"Backpack":{"brand":"Osprey Aether AG 70 Pack","size":"L","weight":"5.12"},"Trekking Poles":{"brand":"REI Co-op Passage Trekking Poles","size":"","weight":"1.12"}},"Shelter":{"Tent/Tarp/Bivy/Hammock":{"brand":"REI Co-op Quarter Dome 1 Tent","size":"1 person","weight":"2.35"}},"Sleeping":{"Sleeping Bag":{"brand":"REI Co-op Down Time 0 Down Sleeping Bag","size":"Short","weight":"3.6"},"Sleeping Pad":{"brand":"Big Agnes Q-Core SLX Sleeping Pad","size":"Regular Wide","weight":"1"},"Sleeping Pillow":{"brand":"Sea to Summit Aeros Ultralight Pillow","size":"Delux","weight":".4"}},"Navigation":{"Map":{"brand":"Unknown","size":"","weight":".12"},"Compass":{"brand":"Suunto A-10 Compass","size":"","weight":".06"},"Solar/portable Charger":{"brand":"Powertraveller Solar Adventurer Solar Charger","size":"","weight":".6"}},"Food & Water":{"Water Reservoir":{"brand":"Osprey Hydraulics Reservoir","size":"3L","weight":".5"},"Water Filter":{"brand":"Katadyn Vario Water Filter","size":"","weight":"1.12"},"Meals":{"brand":"Backpacker Pantry Pad Thai Veggie","size":"","weight":"3"}}}',
         18.99,
-        4
+        1
     );
 
 COMMIT
