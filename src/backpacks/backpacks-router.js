@@ -14,14 +14,6 @@ backpacksRouter.route("/").get((req, res, next) => {
     .catch(next);
 });
 
-backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
-  BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
-    .then(backpacks => {
-      res.json(backpacks);
-    })
-    .catch(next);
-});
-
 backpacksRouter
   .route("/")
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
@@ -34,17 +26,33 @@ backpacksRouter
           error: `Missing '${key}' in request body`
         });
 
-
     newBackpack.user_id = req.user.id;
 
     BackpacksService.insertBackpack(req.app.get("db"), newBackpack)
       .then(backpack => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `${backpack.id}`))
+          //   // .location(path.posix.join(req.originalUrl, `${backpack.id}`))
           .json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
   });
+
+backpacksRouter.route("/:id").delete((req, res, next) => {
+  // console.log(req.params.id);
+  BackpacksService.deleteUserBackpack(req.app.get("db"), parseInt(req.params.id))
+    .then(numRowsAffected => {
+      res.status(204).end();
+    })
+    .catch(next);
+});
+
+backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
+  BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
+    .then(backpacks => {
+      res.json(backpacks);
+    })
+    .catch(next);
+});
 
 module.exports = backpacksRouter;
