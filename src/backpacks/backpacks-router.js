@@ -17,7 +17,6 @@ backpacksRouter.route("/").get((req, res, next) => {
 backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
   BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
     .then(backpacks => {
-      console.log(backpacks)
       res.json(backpacks);
     })
     .catch(next);
@@ -35,7 +34,6 @@ backpacksRouter
           error: `Missing '${key}' in request body`
         });
 
-    console.log(req.user);
 
     newBackpack.user_id = req.user.id;
 

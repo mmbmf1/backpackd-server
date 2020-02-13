@@ -9,7 +9,6 @@ const UsersService = {
       db("backpackd_users")
         .where({ user_name })
         .first()
-        // .then(user => console.log(!!user))
         .then(user => !!user)
     );
   },
