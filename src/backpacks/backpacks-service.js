@@ -16,11 +16,12 @@ const BackpacksService = {
     // )
   },
 
-  getUserBackpacks(db, user_id) {
+  getUserBackpacks(db, user_name) {
     return db
       .from('backpackd_backpacks AS bp')
-      .select('*')
-      .where('bp.user_id', user_id);
+      .select('*', 'user_name')
+      .leftJoin('backpackd_users', 'bp.user_id', 'backpackd_users.id')
+      .where('backpackd_users.user_name', user_name);
   },
 
   insertBackpack(db, newBackpack) {

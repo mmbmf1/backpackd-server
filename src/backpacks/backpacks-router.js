@@ -14,9 +14,10 @@ backpacksRouter.route("/").get((req, res, next) => {
     .catch(next);
 });
 
-backpacksRouter.route("/:user_id").get(requireAuth, (req, res, next) => {
-  BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_id)
+backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
+  BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
     .then(backpacks => {
+      console.log(backpacks)
       res.json(backpacks);
     })
     .catch(next);
