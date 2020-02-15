@@ -32,14 +32,13 @@ backpacksRouter
       .then(backpack => {
         res
           .status(201)
-          //   // .location(path.posix.join(req.originalUrl, `${backpack.id}`))
+            //.location(path.posix.join(req.originalUrl, `${backpack.id}`))
           .json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
   });
 
 backpacksRouter.route("/:id").delete((req, res, next) => {
-  // console.log(req.params.id);
   BackpacksService.deleteUserBackpack(req.app.get("db"), parseInt(req.params.id))
     .then(numRowsAffected => {
       res.status(204).end();

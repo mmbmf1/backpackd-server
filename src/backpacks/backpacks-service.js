@@ -17,18 +17,14 @@ const BackpacksService = {
   },
 
   insertBackpack(db, newBackpack) {
-    // console.log(newBackpack)
     return db
       .insert(newBackpack)
       .into("backpackd_backpacks")
       .returning("*")
       .then(([backpack]) => backpack)
-      // .then(backpack => BackpacksService.getUserBackpacks(db, backpack.user_id));
   },
 
   deleteUserBackpack(db, id) {
-    console.log(typeof id)
-    
     return db
     .from('backpackd_backpacks')
       .where({ id })
@@ -36,7 +32,6 @@ const BackpacksService = {
   },
 
   serializeBackpack(backpack) {
-    // console.log(backpack.id)
     return {
       id: backpack.id,
       name: xss(backpack.name),
