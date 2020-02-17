@@ -41,6 +41,13 @@ const BackpacksService = {
       .delete();
   },
 
+  updateBackpack(db, id, newBackpackFields) {
+    return db
+      .from("backpackd_backpacks")
+      .where({ id })
+      .update(newBackpackFields);
+  },
+
   serializeBackpack(backpack) {
     return {
       id: backpack.id,

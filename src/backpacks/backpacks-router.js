@@ -6,16 +6,16 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const backpacksRouter = express.Router();
 const jsonBodyParser = express.json();
 
-backpacksRouter.route("/").get((req, res, next) => {
-  BackpacksService.getAllBackpacks(req.app.get("db"))
-    .then(backpacks => {
-      res.json(backpacks);
-    })
-    .catch(next);
-});
-
 backpacksRouter
   .route("/")
+  .get((req, res, next) => {
+    BackpacksService.getAllBackpacks(req.app.get("db"))
+      .then(backpacks => {
+        res.json(backpacks);
+      })
+      .catch(next);
+  })
+
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { name, useritems, total } = req.body;
     const newBackpack = { name, useritems, total };
@@ -38,6 +38,32 @@ backpacksRouter
       .catch(next);
   });
 
+backpacksRouter
+  .route("/:backpack_id")
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { id, name, useritems, total } = req.body;
+    const backpackToUpdate = { id, name, useritems, total };
+
+    for (const [key, value] of Object.entries(backpackToUpdate))
+      if (value === null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+
+    backpackToUpdate.user_id = req.user.id;
+    // backpackToUpdate.id = req.params.backpack_id
+
+    BackpacksService.updateBackpack(
+      req.app.get("db"),
+      req.params.backpack_id,
+      backpackToUpdate
+    )
+      .then(backpack => {
+        res.status(204).json(BackpacksService.serializeBackpack(back));
+      })
+      .catch(next);
+  });
+
 backpacksRouter.route("/:user_name").delete((req, res, next) => {
   BackpacksService.deleteUserBackpack(
     req.app.get("db"),
@@ -48,6 +74,7 @@ backpacksRouter.route("/:user_name").delete((req, res, next) => {
     })
     .catch(next);
 });
+
 backpacksRouter
   .route("/edit/:backpack_id")
   .get(jsonBodyParser, (req, res, next) => {
