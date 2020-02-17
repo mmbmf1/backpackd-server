@@ -32,19 +32,33 @@ backpacksRouter
       .then(backpack => {
         res
           .status(201)
-            //.location(path.posix.join(req.originalUrl, `${backpack.id}`))
+          //.location(path.posix.join(req.originalUrl, `${backpack.id}`))
           .json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
   });
 
-backpacksRouter.route("/:id").delete((req, res, next) => {
-  BackpacksService.deleteUserBackpack(req.app.get("db"), parseInt(req.params.id))
+backpacksRouter.route("/:user_name").delete((req, res, next) => {
+  BackpacksService.deleteUserBackpack(
+    req.app.get("db"),
+    parseInt(req.params.user_name)
+  )
     .then(numRowsAffected => {
       res.status(204).end();
     })
     .catch(next);
 });
+backpacksRouter
+  .route("/edit/:backpack_id")
+  .get(jsonBodyParser, (req, res, next) => {
+    console.log(req.params.backpack_id);
+    BackpacksService.getBackpackById(req.app.get("db"), req.params.backpack_id)
+      .then(backpack => {
+        console.log(backpack);
+        res.json(backpack);
+      })
+      .catch(next);
+  });
 
 backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
   BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
