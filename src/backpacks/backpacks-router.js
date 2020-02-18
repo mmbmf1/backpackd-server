@@ -59,7 +59,8 @@ backpacksRouter
       backpackToUpdate
     )
       .then(backpack => {
-        res.status(204).json(BackpacksService.serializeBackpack(back));
+        res.status(204);
+        // .json(BackpacksService.serializeBackpack(back));
       })
       .catch(next);
   });
