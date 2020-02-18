@@ -30,8 +30,8 @@ const BackpacksService = {
     return db
       .insert(newBackpack)
       .into("backpackd_backpacks")
-      .returning("*")
-      .then(([backpack]) => backpack);
+      .returning("*");
+    // .then(([backpack]) => backpack);
   },
 
   deleteUserBackpack(db, id) {

@@ -6,16 +6,15 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const backpacksRouter = express.Router();
 const jsonBodyParser = express.json();
 
+backpacksRouter.route("/").get((req, res, next) => {
+  BackpacksService.getAllBackpacks(req.app.get("db"))
+    .then(backpacks => {
+      res.json(backpacks);
+    })
+    .catch(next);
+});
 backpacksRouter
   .route("/")
-  .get((req, res, next) => {
-    BackpacksService.getAllBackpacks(req.app.get("db"))
-      .then(backpacks => {
-        res.json(backpacks);
-      })
-      .catch(next);
-  })
-
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { name, useritems, total } = req.body;
     const newBackpack = { name, useritems, total };
@@ -30,6 +29,7 @@ backpacksRouter
 
     BackpacksService.insertBackpack(req.app.get("db"), newBackpack)
       .then(backpack => {
+        console.log(backpack);
         res
           .status(201)
           //.location(path.posix.join(req.originalUrl, `${backpack.id}`))
