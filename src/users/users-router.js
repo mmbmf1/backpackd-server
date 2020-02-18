@@ -38,12 +38,11 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
           date_created: "now()"
         };
 
-        return UsersService.insertUser(req.app.get("db"), newUser).then(user => {
-          res
-            .status(201)
-            // .location(path.posix.join(req.originalUrl, `/backpacks`))
-            .json(UsersService.serializeUser(user));
-        });
+        return UsersService.insertUser(req.app.get("db"), newUser).then(
+          user => {
+            res.status(201).json(UsersService.serializeUser(user));
+          }
+        );
       });
     })
     .catch(next);
