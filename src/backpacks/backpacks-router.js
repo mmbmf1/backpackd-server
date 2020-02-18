@@ -29,11 +29,7 @@ backpacksRouter
 
     BackpacksService.insertBackpack(req.app.get("db"), newBackpack)
       .then(backpack => {
-        console.log(backpack);
-        res
-          .status(201)
-          //.location(path.posix.join(req.originalUrl, `${backpack.id}`))
-          .json(BackpacksService.serializeBackpack(backpack));
+        res.status(201).json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
   });
@@ -51,7 +47,6 @@ backpacksRouter
         });
 
     backpackToUpdate.user_id = req.user.id;
-    // backpackToUpdate.id = req.params.backpack_id
 
     BackpacksService.updateBackpack(
       req.app.get("db"),
@@ -59,8 +54,7 @@ backpacksRouter
       backpackToUpdate
     )
       .then(backpack => {
-        res.status(204);
-        // .json(BackpacksService.serializeBackpack(back));
+        res.status(201).json(backpack);
       })
       .catch(next);
   });
