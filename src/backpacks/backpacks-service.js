@@ -30,8 +30,8 @@ const BackpacksService = {
     return db
       .insert(newBackpack)
       .into("backpackd_backpacks")
-      .returning("*");
-    // .then(([backpack]) => backpack);
+      .returning("*")
+      .then(([backpack]) => backpack);
   },
 
   deleteUserBackpack(db, id) {
@@ -49,10 +49,18 @@ const BackpacksService = {
   },
 
   serializeBackpack(backpack) {
+    // console.log(backpack);
+    // console.log({
+    //   id: backpack.id,
+    //   name: xss(backpack.name),
+    //   useritems: xss(backpack.useritems),
+    //   total: backpack.total,
+    //   date_created: new Date(backpack.date_created)
+    // });
     return {
       id: backpack.id,
       name: xss(backpack.name),
-      useritems: xss(backpack.useritems),
+      useritems: backpack.useritems,
       total: backpack.total,
       date_created: new Date(backpack.date_created)
     };

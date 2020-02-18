@@ -29,6 +29,8 @@ backpacksRouter
 
     BackpacksService.insertBackpack(req.app.get("db"), newBackpack)
       .then(backpack => {
+        // console.log(backpack);
+        // console.log(BackpacksService.serializeBackpack(backpack));
         res.status(201).json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
@@ -59,10 +61,10 @@ backpacksRouter
       .catch(next);
   });
 
-backpacksRouter.route("/:user_name").delete((req, res, next) => {
+backpacksRouter.route("/:id").delete((req, res, next) => {
   BackpacksService.deleteUserBackpack(
     req.app.get("db"),
-    parseInt(req.params.user_name)
+    parseInt(req.params.id)
   )
     .then(numRowsAffected => {
       res.status(204).end();
@@ -76,7 +78,7 @@ backpacksRouter
     console.log(req.params.backpack_id);
     BackpacksService.getBackpackById(req.app.get("db"), req.params.backpack_id)
       .then(backpack => {
-        console.log(backpack);
+        // console.log(backpack);
         res.json(backpack);
       })
       .catch(next);
