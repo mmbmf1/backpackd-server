@@ -56,6 +56,7 @@ backpacksRouter
       backpackToUpdate
     )
       .then(backpack => {
+        // console.log(backpack);
         res.status(201).json(backpack);
       })
       .catch(next);

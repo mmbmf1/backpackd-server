@@ -42,10 +42,13 @@ const BackpacksService = {
   },
 
   updateBackpack(db, id, newBackpackFields) {
+    // console.log(newBackpackFields);
     return db
       .from("backpackd_backpacks")
       .where({ id })
-      .update(newBackpackFields);
+      .update(newBackpackFields)
+      .returning("*")
+      .then(([newBackpackFields]) => newBackpackFields);
   },
 
   serializeBackpack(backpack) {
