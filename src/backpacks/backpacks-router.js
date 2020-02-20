@@ -29,8 +29,6 @@ backpacksRouter
 
     BackpacksService.insertBackpack(req.app.get("db"), newBackpack)
       .then(backpack => {
-        // console.log(backpack);
-        // console.log(BackpacksService.serializeBackpack(backpack));
         res.status(201).json(BackpacksService.serializeBackpack(backpack));
       })
       .catch(next);
@@ -56,7 +54,6 @@ backpacksRouter
       backpackToUpdate
     )
       .then(backpack => {
-        // console.log(backpack);
         res.status(201).json(backpack);
       })
       .catch(next);
@@ -79,7 +76,6 @@ backpacksRouter
     console.log(req.params.backpack_id);
     BackpacksService.getBackpackById(req.app.get("db"), req.params.backpack_id)
       .then(backpack => {
-        // console.log(backpack);
         res.json(backpack);
       })
       .catch(next);
