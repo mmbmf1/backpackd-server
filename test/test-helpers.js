@@ -1,27 +1,8 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-function cleanTables(db) {
-  return db.transaction(trx =>
-    trx
-      .raw(
-        `TRUNCATE
-        backpackd_backpacks,
-        backpackd_users,
-      `
-      )
-      .then(() =>
-        Promise.all([
-          trx.raw(
-            `ALTER SEQUENCE backpackd_backpacks_id_seq minvalue 0 START WITH 1`
-          ),
-          trx.raw(
-            `ALTER SEQUENCE backpackd_users_id_seq minvalue 0 START WITH 1`
-          ),
-          trx.raw(`SELECT setval('backpackd_backpacks_id_seq', 0)`),
-          trx.raw(`SELECT setval('backpackd_users_id_seq', 0)`)
-        ])
-      )
-  );
+function truncateTables(db) {
+  return db.raw(`TRUNCATE backpackd_backpacks, backpackd_users`);
 }
 
 function seedUsers(db, users) {
@@ -39,7 +20,17 @@ function seedUsers(db, users) {
     );
 }
 
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  console.log(user);
+  const token = jwt.sign({ user_id: user.id }, secret, {
+    subject: user.user_name,
+    algorithm: "HS256"
+  });
+  return `bearer ${token}`;
+}
+
 module.exports = {
-  cleanTables,
-  seedUsers
+  truncateTables,
+  seedUsers,
+  makeAuthHeader
 };

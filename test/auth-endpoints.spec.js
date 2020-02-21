@@ -7,7 +7,11 @@ describe("Auth endpoints", function() {
 
   const testUsers = [
     {
-      user_name: "test-user-1",
+      id: 1,
+      user_name: "testuser2",
+      first_name: "test",
+      last_name: "user",
+      user_email: "testuser2@mail.com",
       password: "password"
     }
   ];
@@ -22,9 +26,20 @@ describe("Auth endpoints", function() {
     app.set("db", db);
   });
 
+  after("disconnect from db", () => db.destroy());
+
+  before("clean table", () => db("backpackd_users").truncate());
+
+  afterEach("clean up", () => db("backpackd_users").truncate());
+
   describe("POST /api/auth/login", () => {
+    before("insert user", () => {
+      return db("backpackd_users").insert(testUser);
+    });
+
     it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
       const userValidCreds = {
+        id: testUser.id,
         user_name: testUser.user_name,
         password: testUser.password
       };

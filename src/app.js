@@ -21,7 +21,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+  res.send("Hello, backpackd!!");
 });
 
 app.use(function errorHandler(error, req, res, next) {
