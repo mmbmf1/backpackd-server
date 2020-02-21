@@ -9,13 +9,10 @@ const BackpacksService = {
   },
 
   getBackpackById(db, id) {
-    return (
-      db
-        .from("backpackd_backpacks AS bp")
-        .select("bp.id", "bp.name", "bp.useritems", "bp.total")
-        // .join("backpackd_users", "bp.user_id", "=", "backpackd_users.id")
-        .where("bp.id", id)
-    );
+    return db
+      .from("backpackd_backpacks AS bp")
+      .select("bp.id", "bp.name", "bp.useritems", "bp.total")
+      .where("bp.id", id);
   },
 
   getUserBackpacks(db, user_name) {
@@ -42,7 +39,6 @@ const BackpacksService = {
   },
 
   updateBackpack(db, id, newBackpackFields) {
-    // console.log(newBackpackFields);
     return db
       .from("backpackd_backpacks")
       .where({ id })
@@ -52,8 +48,6 @@ const BackpacksService = {
   },
 
   serializeBackpack(backpack) {
-    // console.log(backpack);
-    // console.log({
     //   id: backpack.id,
     //   name: xss(backpack.name),
     //   useritems: xss(backpack.useritems),

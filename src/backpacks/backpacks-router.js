@@ -73,7 +73,6 @@ backpacksRouter.route("/:id").delete((req, res, next) => {
 backpacksRouter
   .route("/edit/:backpack_id")
   .get(jsonBodyParser, (req, res, next) => {
-    console.log(req.params.backpack_id);
     BackpacksService.getBackpackById(req.app.get("db"), req.params.backpack_id)
       .then(backpack => {
         res.json(backpack);
