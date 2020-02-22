@@ -1,10 +1,10 @@
 const knex = require("knex");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const app = require("../src/app");
+const helpers = require("./test-helpers");
 
-describe("Auth endpoints", function() {
+describe.only("Users Endpoints", function() {
   let db;
-
   const testUsers = [
     {
       id: 1,
@@ -17,7 +17,6 @@ describe("Auth endpoints", function() {
   ];
 
   const testUser = testUsers[0];
-  let authToken;
 
   before("make knex instance", () => {
     db = knex({
@@ -33,11 +32,10 @@ describe("Auth endpoints", function() {
 
   afterEach("clean up", () => db("backpackd_users").truncate());
 
-  describe("POST /api/auth/login", () => {
-    it("returns true", () => {
-      supertest(app)
-        .post("/api/users")
-        .expect(400);
-    });
+  it("registers a new user", () => {
+    supertest(app)
+      .post(`/api/users`)
+      .send(testUser)
+      .expect(204);
   });
 });

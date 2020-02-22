@@ -11,14 +11,29 @@ const BackpacksService = {
   getBackpackById(db, id) {
     return db
       .from("backpackd_backpacks AS bp")
-      .select("bp.id", "bp.name", "bp.useritems", "bp.total")
+      .select(
+        "bp.id",
+        "bp.name",
+        "bp.useritems",
+        "bp.total",
+        "bp.date_created",
+        "bp.user_id"
+      )
       .where("bp.id", id);
   },
 
   getUserBackpacks(db, user_name) {
     return db
       .from("backpackd_backpacks AS bp")
-      .select("bp.id", "bp.name", "bp.useritems", "bp.total", "user_name")
+      .select(
+        "bp.date_created",
+        "bp.id",
+        "bp.name",
+        "bp.useritems",
+        "bp.total",
+        "bp.user_id"
+        // "user_name"
+      )
       .join("backpackd_users", "bp.user_id", "=", "backpackd_users.id")
       .where("backpackd_users.user_name", user_name);
   },

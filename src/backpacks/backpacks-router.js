@@ -83,6 +83,7 @@ backpacksRouter
 backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
   BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
     .then(backpacks => {
+      console.log(backpacks);
       res.json(backpacks);
     })
     .catch(next);

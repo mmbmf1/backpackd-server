@@ -1,9 +1,9 @@
 const knex = require("knex");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe.skip("Backpacks Endpoints", function() {
+describe("Backpacks Endpoints", function() {
   let db;
 
   const testBackpack = [
@@ -20,13 +20,15 @@ describe.skip("Backpacks Endpoints", function() {
   const testUsers = [
     {
       id: 1,
-      user_name: "testuser2",
+      user_name: "testuser1",
       first_name: "test",
       last_name: "user",
-      user_email: "testuser2@mail.com",
-      password: "password"
+      user_email: "testuser1@mail.com",
+      password: "P@ssw0rd"
     }
   ];
+
+  const testUser = testUsers[0];
 
   before("make knex instance", () => {
     db = knex({
@@ -39,6 +41,23 @@ describe.skip("Backpacks Endpoints", function() {
   after("disconnect from db", () => db.destroy());
 
   before("clean table", () => db("backpackd_backpacks").truncate());
+
+  beforeEach("register and login user", done => {
+    supertest(app)
+      .post("/api/users")
+      .send(testUser)
+      .then(registeredUser => {
+        const { user_name, password } = testUser;
+        supertest(app)
+          .post("/api/auth/login")
+          .send({ user_name, password })
+          .then(res => {
+            authToken = res.body.authToken;
+            console.log(authToken);
+            done();
+          });
+      });
+  });
 
   afterEach("clean up", () => db("backpackd_backpacks").truncate());
 
@@ -68,13 +87,88 @@ describe.skip("Backpacks Endpoints", function() {
       return db.into("backpackd_backpacks").insert(testBackpack);
     });
     it(`responds 200 with the user backpacks`, () => {
-      const user_name = "testuser2";
+      const user_name = "testuser1";
       const expectedBackpack = testBackpack;
 
       return supertest(app)
         .get(`/api/backpacks/${user_name}`)
         .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
         .expect(200, expectedBackpack);
+    });
+  });
+
+  describe(`GET /api/backpacks/edit/:backpack_id`, () => {
+    beforeEach("insert backpacks", () => {
+      return db.into("backpackd_backpacks").insert(testBackpack);
+    });
+    it(`responds 200 with the backpack`, () => {
+      const backpack_id = 1;
+      const expectedBackpack = testBackpack;
+
+      return (
+        supertest(app)
+          .get(`/api/backpacks/edit/${backpack_id}`)
+          // .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, expectedBackpack)
+      );
+    });
+  });
+
+  describe(`POST /backpacks`, () => {
+    it(`creates a new backpack and responds with 201`, () => {
+      const newBackpack = {
+        name: "new-backpack",
+        useritems: {},
+        total: 35,
+        user_id: 1
+      };
+
+      return supertest(app)
+        .post("/api/backpacks")
+        .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+        .send(newBackpack)
+        .expect(201);
+    });
+  });
+
+  describe(`PATCH /:backpack_id`, () => {
+    beforeEach("insert backpacks", () => {
+      return db.into("backpackd_backpacks").insert(testBackpack);
+    });
+
+    it("responds with 204 and updates the backpack", () => {
+      const backpackToUpdate = 1;
+      const updateBackpack = {
+        name: "test backpack 99"
+      };
+
+      return supertest(app)
+        .patch(`/api/backpacks/${backpackToUpdate}`)
+        .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+        .send(updateBackpack)
+        .expect(201);
+    });
+  });
+
+  describe(`DELETE /api/backpacks/:backpackd_id`, () => {
+    beforeEach("insert backpack", () => {
+      return db.into("backpackd_backpacks").insert(testBackpack);
+    });
+
+    it(`responds with 204 and removes the backpack`, () => {
+      const backpackToRemove = 1;
+      const expectedBackpack = testBackpack.filter(
+        backpack => backpack.id !== backpackToRemove
+      );
+
+      return supertest(app)
+        .delete(`/api/backpacks/${backpackToRemove}`)
+        .expect(204)
+        .then(res =>
+          supertest(app)
+            .get(`/api/backpacks`)
+            .expect(expectedBackpack)
+        );
     });
   });
 });
