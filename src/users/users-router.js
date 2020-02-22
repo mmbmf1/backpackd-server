@@ -23,6 +23,13 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
 
   if (passwordError) return res.status(400).json({ error: passwordError });
 
+  UsersService.hasUserWithEmail(req.app.get("db"), user_email).then(
+    hasUserWithUserEmail => {
+      if (hasUserWithUserEmail)
+        return res.status(400).sjson({ error: `${user_email} already in use` });
+    }
+  );
+
   UsersService.hasUserWithUserName(req.app.get("db"), user_name)
     .then(hasUserWithUserName => {
       if (hasUserWithUserName)
