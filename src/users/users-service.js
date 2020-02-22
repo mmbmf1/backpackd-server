@@ -5,12 +5,10 @@ const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*
 
 const UsersService = {
   hasUserWithUserName(db, user_name) {
-    return (
-      db("backpackd_users")
-        .where({ user_name })
-        .first()
-        .then(user => !!user)
-    );
+    return db("backpackd_users")
+      .where({ user_name })
+      .first()
+      .then(user => !!user);
   },
 
   insertUser(db, newUser) {
@@ -46,15 +44,15 @@ const UsersService = {
   },
 
   serializeUser(user) {
-      return {
-          id: user.id,
-          first_name: xss(user.first_name),
-          last_name: xss(user.last_name),
-          user_email: xss(user.user_email),
-          user_name: xss(user.user_name),
-          date_created: new Date(user.date_created)
-      }
-  },
+    return {
+      id: user.id,
+      first_name: xss(user.first_name),
+      last_name: xss(user.last_name),
+      user_email: xss(user.user_email),
+      user_name: xss(user.user_name),
+      date_created: new Date(user.date_created)
+    };
+  }
 };
 
 module.exports = UsersService;
