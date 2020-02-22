@@ -31,6 +31,23 @@ describe("Auth endpoints", function() {
 
   before("clean table", () => db.raw("TRUNCATE TABLE backpackd_users"));
 
+  beforeEach("register and login user", done => {
+    supertest(app)
+      .post("/api/users")
+      .send(testUser)
+      .then(registeredUser => {
+        const { user_name, password } = testUser;
+        supertest(app)
+          .post("/api/auth/login")
+          .send({ user_name, password })
+          .then(res => {
+            authToken = res.body.authToken;
+            console.log(authToken);
+            done();
+          });
+      });
+  });
+
   afterEach("clean up", () => db("backpackd_users").truncate());
 
   describe("POST /api/auth/login", () => {
