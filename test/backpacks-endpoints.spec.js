@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe("Backpacks Endpoints", function() {
+describe.skip("Backpacks Endpoints", function() {
   let db;
 
   const testBackpack = [
@@ -63,7 +63,7 @@ describe("Backpacks Endpoints", function() {
     });
   });
 
-  describe.only(`GET /api/backpacks/:user_name`, () => {
+  describe(`GET /api/backpacks/:user_name`, () => {
     beforeEach("insert backpacks", () => {
       return db.into("backpackd_backpacks").insert(testBackpack);
     });
@@ -78,7 +78,3 @@ describe("Backpacks Endpoints", function() {
     });
   });
 });
-
-// need test for for post backpacks
-//need test for patch backpack
-// ? need test for delete backpack?

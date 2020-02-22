@@ -12,11 +12,12 @@ describe("Auth endpoints", function() {
       first_name: "test",
       last_name: "user",
       user_email: "testuser2@mail.com",
-      password: "password"
+      password: "P@ssw0rd"
     }
   ];
 
   const testUser = testUsers[0];
+  let authToken;
 
   before("make knex instance", () => {
     db = knex({
@@ -28,41 +29,32 @@ describe("Auth endpoints", function() {
 
   after("disconnect from db", () => db.destroy());
 
-  before("clean table", () => db("backpackd_users").truncate());
+  before("clean table", () => db.raw("TRUNCATE TABLE backpackd_users"));
+
+  beforeEach("register and login user", done => {
+    supertest(app)
+      .post("/api/users")
+      .send(testUser)
+      .then(registeredUser => {
+        const { user_name, password } = testUser;
+        supertest(app)
+          .post("/api/auth/login")
+          .send({ user_name, password })
+          .then(res => {
+            authToken = res.body.authToken;
+            console.log(authToken);
+            done();
+          });
+      });
+  });
 
   afterEach("clean up", () => db("backpackd_users").truncate());
 
   describe("POST /api/auth/login", () => {
-    before("insert user", () => {
-      return db("backpackd_users").insert(testUser);
-    });
-
-    it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
-      const userValidCreds = {
-        id: testUser.id,
-        user_name: testUser.user_name,
-        password: testUser.password
-      };
-
-      const expectedToken = jwt.sign(
-        { user_id: testUser.id },
-        process.env.JWT_SECRET,
-        {
-          subject: testUser.user_name,
-          expiresIn: process.env.JWT_EXPIRY,
-          algorithm: "HS256"
-        }
-      );
-
-      return (
-        supertest(app)
-          .post("/api/auth/login")
-          .send(userValidCreds)
-          .expect(200),
-        {
-          authToken: expectedToken
-        }
-      );
+    it.only("returns true", () => {
+      supertest(app)
+        .post("/api/users")
+        .expect(400);
     });
   });
 });
