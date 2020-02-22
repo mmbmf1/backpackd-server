@@ -26,7 +26,7 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
   UsersService.hasUserWithEmail(req.app.get("db"), user_email).then(
     hasUserWithUserEmail => {
       if (hasUserWithUserEmail)
-        return res.status(400).sjson({ error: `${user_email} already in use` });
+        return res.status(400).json({ error: `${user_email} already in use` });
     }
   );
 
