@@ -60,7 +60,6 @@ backpacksRouter
   });
 
 backpacksRouter.route("/:id").delete((req, res, next) => {
-  console.log(req.params.id);
   BackpacksService.deleteUserBackpack(
     req.app.get("db"),
     parseInt(req.params.id)
