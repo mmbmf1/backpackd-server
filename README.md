@@ -31,3 +31,20 @@ The backpackd-server serves the backpackd-app for users to create and edit backp
 Express.js
 Node.js
 PostgeSQL
+
+## Landing Page:
+
+![](images/Landing_page_1.jpg)
+![](images/Landing_Page_2.jpg)
+
+## Backpacks Page:
+
+![](images/BP_collection.jpg)
+
+## Add Backpacks Page:
+
+![](images/BP_Add.jpg)
+
+## Edit Backpacks Page:
+
+![](images/BP_Edit.jpg)
