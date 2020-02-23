@@ -60,10 +60,7 @@ backpacksRouter
   });
 
 backpacksRouter.route("/:id").delete((req, res, next) => {
-  BackpacksService.deleteUserBackpack(
-    req.app.get("db"),
-    parseInt(req.params.id)
-  )
+  BackpacksService.deleteUserBackpack(req.app.get("db"), req.params.id)
     .then(numRowsAffected => {
       res.status(204).end();
     })
@@ -83,7 +80,6 @@ backpacksRouter
 backpacksRouter.route("/:user_name").get(requireAuth, (req, res, next) => {
   BackpacksService.getUserBackpacks(req.app.get("db"), req.params.user_name)
     .then(backpacks => {
-      console.log(backpacks);
       res.json(backpacks);
     })
     .catch(next);

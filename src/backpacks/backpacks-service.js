@@ -45,10 +45,11 @@ const BackpacksService = {
       .then(([backpack]) => backpack);
   },
 
-  deleteUserBackpack(db, backpack_id) {
+  deleteUserBackpack(db, id) {
+    console.log(typeof id);
     return db
       .from("backpackd_backpacks")
-      .where({ backpack_id })
+      .where({ id })
       .delete();
   },
 
