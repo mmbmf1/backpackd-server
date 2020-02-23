@@ -1,5 +1,4 @@
 const knex = require("knex");
-// const jwt = require("jsonwebtoken");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
@@ -105,12 +104,9 @@ describe("Backpacks Endpoints", function() {
       const backpack_id = 1;
       const expectedBackpack = testBackpack;
 
-      return (
-        supertest(app)
-          .get(`/api/backpacks/edit/${backpack_id}`)
-          // .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-          .expect(200, expectedBackpack)
-      );
+      return supertest(app)
+        .get(`/api/backpacks/edit/${backpack_id}`)
+        .expect(200, expectedBackpack);
     });
   });
 

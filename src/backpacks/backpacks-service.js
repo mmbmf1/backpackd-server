@@ -32,7 +32,6 @@ const BackpacksService = {
         "bp.useritems",
         "bp.total",
         "bp.user_id"
-        // "user_name"
       )
       .join("backpackd_users", "bp.user_id", "=", "backpackd_users.id")
       .where("backpackd_users.user_name", user_name);
@@ -46,10 +45,10 @@ const BackpacksService = {
       .then(([backpack]) => backpack);
   },
 
-  deleteUserBackpack(db, id) {
+  deleteUserBackpack(db, backpack_id) {
     return db
       .from("backpackd_backpacks")
-      .where({ id })
+      .where({ backpack_id })
       .delete();
   },
 
@@ -63,12 +62,6 @@ const BackpacksService = {
   },
 
   serializeBackpack(backpack) {
-    //   id: backpack.id,
-    //   name: xss(backpack.name),
-    //   useritems: xss(backpack.useritems),
-    //   total: backpack.total,
-    //   date_created: new Date(backpack.date_created)
-    // });
     return {
       id: backpack.id,
       name: xss(backpack.name),
