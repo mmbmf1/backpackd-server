@@ -46,11 +46,7 @@ const BackpacksService = {
   },
 
   deleteUserBackpack(db, id) {
-    console.log(typeof id);
-    return db
-      .from("backpackd_backpacks")
-      .where({ id })
-      .delete();
+    return db.from("backpackd_backpacks").where({ id }).delete();
   },
 
   updateBackpack(db, id, newBackpackFields) {
@@ -68,9 +64,9 @@ const BackpacksService = {
       name: xss(backpack.name),
       useritems: backpack.useritems,
       total: backpack.total,
-      date_created: new Date(backpack.date_created)
+      date_created: new Date(backpack.date_created),
     };
-  }
+  },
 };
 
 module.exports = BackpacksService;

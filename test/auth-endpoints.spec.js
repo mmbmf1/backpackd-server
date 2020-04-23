@@ -2,7 +2,7 @@ const knex = require("knex");
 const jwt = require("jsonwebtoken");
 const app = require("../src/app");
 
-describe("Auth endpoints", function() {
+describe("Auth endpoints", function () {
   let db;
 
   const testUsers = [
@@ -12,8 +12,8 @@ describe("Auth endpoints", function() {
       first_name: "test",
       last_name: "user",
       user_email: "testuser1@mail.com",
-      password: "P@ssw0rd"
-    }
+      password: "P@ssw0rd",
+    },
   ];
 
   const testUser = testUsers[0];
@@ -22,7 +22,7 @@ describe("Auth endpoints", function() {
   before("make knex instance", () => {
     db = knex({
       client: "pg",
-      connection: process.env.TEST_DATABASE_URL
+      connection: process.env.TEST_DATABASE_URL,
     });
     app.set("db", db);
   });
@@ -31,18 +31,17 @@ describe("Auth endpoints", function() {
 
   before("clean table", () => db.raw("TRUNCATE TABLE backpackd_users"));
 
-  beforeEach("register and login user", done => {
+  beforeEach("register and login user", (done) => {
     supertest(app)
       .post("/api/users")
       .send(testUser)
-      .then(registeredUser => {
+      .then((registeredUser) => {
         const { user_name, password } = testUser;
         supertest(app)
           .post("/api/auth/login")
           .send({ user_name, password })
-          .then(res => {
+          .then((res) => {
             authToken = res.body.authToken;
-            console.log(authToken);
             done();
           });
       });
@@ -52,9 +51,7 @@ describe("Auth endpoints", function() {
 
   describe("POST /api/auth/login", () => {
     it("returns true", () => {
-      supertest(app)
-        .post("/api/users")
-        .expect(400);
+      supertest(app).post("/api/users").expect(400);
     });
   });
 });

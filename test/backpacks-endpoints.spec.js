@@ -2,7 +2,7 @@ const knex = require("knex");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe("Backpacks Endpoints", function() {
+describe("Backpacks Endpoints", function () {
   let db;
 
   const testBackpack = [
@@ -12,8 +12,8 @@ describe("Backpacks Endpoints", function() {
       useritems: {},
       total: "35",
       user_id: 1,
-      date_created: "2029-01-22T16:28:32.615Z"
-    }
+      date_created: "2029-01-22T16:28:32.615Z",
+    },
   ];
 
   const testUsers = [
@@ -23,8 +23,8 @@ describe("Backpacks Endpoints", function() {
       first_name: "test",
       last_name: "user",
       user_email: "testuser1@mail.com",
-      password: "P@ssw0rd"
-    }
+      password: "P@ssw0rd",
+    },
   ];
 
   const testUser = testUsers[0];
@@ -32,7 +32,7 @@ describe("Backpacks Endpoints", function() {
   before("make knex instance", () => {
     db = knex({
       client: "pg",
-      connection: process.env.TEST_DATABASE_URL
+      connection: process.env.TEST_DATABASE_URL,
     });
     app.set("db", db);
   });
@@ -41,18 +41,17 @@ describe("Backpacks Endpoints", function() {
 
   before("clean table", () => db("backpackd_backpacks").truncate());
 
-  beforeEach("register and login user", done => {
+  beforeEach("register and login user", (done) => {
     supertest(app)
       .post("/api/users")
       .send(testUser)
-      .then(registeredUser => {
+      .then((registeredUser) => {
         const { user_name, password } = testUser;
         supertest(app)
           .post("/api/auth/login")
           .send({ user_name, password })
-          .then(res => {
+          .then((res) => {
             authToken = res.body.authToken;
-            console.log(authToken);
             done();
           });
       });
@@ -63,9 +62,7 @@ describe("Backpacks Endpoints", function() {
   describe("GET /api/backpacks", () => {
     context(`Given no backpacks`, () => {
       it(`responds with 200 and an empty list`, () => {
-        return supertest(app)
-          .get("/api/backpacks")
-          .expect(200, []);
+        return supertest(app).get("/api/backpacks").expect(200, []);
       });
     });
 
@@ -74,9 +71,7 @@ describe("Backpacks Endpoints", function() {
         return db.into("backpackd_backpacks").insert(testBackpack);
       });
       it(`responds with 200 and all of the backpacks`, () => {
-        return supertest(app)
-          .get("/api/backpacks")
-          .expect(200, testBackpack);
+        return supertest(app).get("/api/backpacks").expect(200, testBackpack);
       });
     });
   });
@@ -116,7 +111,7 @@ describe("Backpacks Endpoints", function() {
         name: "new-backpack",
         useritems: {},
         total: 35,
-        user_id: 1
+        user_id: 1,
       };
 
       return supertest(app)
@@ -135,7 +130,7 @@ describe("Backpacks Endpoints", function() {
     it("responds with 204 and updates the backpack", () => {
       const backpackToUpdate = 1;
       const updateBackpack = {
-        name: "test backpack 99"
+        name: "test backpack 99",
       };
 
       return supertest(app)
@@ -154,16 +149,14 @@ describe("Backpacks Endpoints", function() {
     it(`responds with 204 and removes the backpack`, () => {
       const backpackToRemove = 1;
       const expectedBackpack = testBackpack.filter(
-        backpack => backpack.id !== backpackToRemove
+        (backpack) => backpack.id !== backpackToRemove
       );
 
       return supertest(app)
         .delete(`/api/backpacks/${backpackToRemove}`)
         .expect(204)
-        .then(res =>
-          supertest(app)
-            .get(`/api/backpacks`)
-            .expect(expectedBackpack)
+        .then((res) =>
+          supertest(app).get(`/api/backpacks`).expect(expectedBackpack)
         );
     });
   });
